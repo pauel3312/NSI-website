@@ -17,6 +17,11 @@ a {
     border: 1px solid #A0A0A0;
     border-radius: 15px;
 }
+#draw-toggle {
+    background-color: #686868;
+    border: 1px solid #A0A0A0;
+    border-radius: 15px;
+}
 
 #osc-types select {
   background: #303030;

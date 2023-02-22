@@ -1,6 +1,7 @@
-let oscillator1, isPlaying, pixelRatio, sizeOnScreen, segmentWidth, oscillator2;
+let oscillator1, isPlaying, pixelRatio, sizeOnScreen, segmentWidth, oscillator2, isDrawing;
 const ac = new AudioContext();
 isPlaying = false
+isDrawing = true
 
 analyser = new AnalyserNode(ac, {
   smoothingTimeConstant: 1,
@@ -9,14 +10,16 @@ analyser = new AnalyserNode(ac, {
 
 dataArray = new Uint8Array(analyser.frequencyBinCount);
 
-const draw = () => {
+function draw () {
   analyser.getByteTimeDomainData(dataArray);
   requestAnimationFrame(draw);
+    if (isDrawing) {
     segmentWidth = canvas.width / analyser.frequencyBinCount;
     c.fillRect(0, 0, canvas.width, canvas.height);
     c.beginPath();
     c.moveTo(-100, canvas.height / 2);
-    if (isPlaying) {
+    }
+    if (isPlaying && isDrawing) {
       for (let i = 1; i < analyser.frequencyBinCount; i += 1) {
         let x = i * segmentWidth;
         let v = dataArray[i] / 128.0;
@@ -158,3 +161,8 @@ function master_gain_update(value) {
         master_gainNode.gain.value = gain
     }
 };
+
+function toggle_draw() {
+    isDrawing = !isDrawing;
+}
+
